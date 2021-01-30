@@ -1,0 +1,48 @@
+{% extends "DjangoDLS/BaseHtml.html" %}
+
+{% load static %}
+{% block css %} <link rel="stylesheet" href="{% static "DjangoDLS/index.css" %} ">{% endblock %}
+{% block title %} DLS Detector {% endblock %}
+
+{% block body%}
+
+<div class="file_input_block px-4">
+{% if file_url is  None %}
+<form  method="post" enctype="multipart/form-data"> {% csrf_token %}
+<label class="form-label" for="customFile">Пожалуйста, выберите файл Jpg... </label>
+<input type="file" class="form-control" id="customFile" name="file" accept="image/jpeg"/>
+    <div class="p-1">
+    <button type="submit" class="btn btn-primary" name="file"> Распознать </button>
+    </div>
+</form>
+{% else %}
+    <input hidden id="file_id" value="{{ file_id }}">
+
+    <div class="p-2">
+        <img src="{{ file_url }}" alt="imgs" width="100%" >
+    </div>
+
+    {% if result is None %}
+        <div>
+            Изображение отправлено в работу. Как только процесс завершится, страница будет обновлена.
+        </div>
+        <script src="{% static "DjangoDLS/script.js" %} " defer></script>
+    {% endif %}
+
+{% endif %}
+
+{% if result is not None %}
+    <div class="p-2">
+    <p> На картинке нашлось:
+    <ul>
+    {% for i in result %}
+        <li>{{ i }}</li>
+    {% endfor %}
+    </ul>
+    </div>
+{%  endif %}
+
+
+</div>
+ {% endblock %}
+
