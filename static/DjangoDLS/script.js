@@ -25,6 +25,7 @@ $(document).ready(async function(){
 
   });
 
+let timeleft = 0;
 chekData = async function (){
     let result = await getData()
     console.log("We get result: " + result)
@@ -39,8 +40,9 @@ chekData = async function (){
         let url = 'get_by_id/' + id_val;
         window.location.replace(url);
     }
-
-    setTimeout(chekData, 10000)
+    timeleft = timeleft + 1;
+    document.getElementById("timeleft").textContent= timeleft.toString() + ' c.';
+    setTimeout(chekData, 1000)
 }
 
 getData = async function (){
